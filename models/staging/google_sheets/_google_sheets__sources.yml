@@ -12,8 +12,8 @@ sources:
       identifier: false
 
     freshness:
-      warn_after: {count: 21, period: day}
-      error_after: {count: 28, period: day}
+      warn_after: {count: 60, period: day}
+      error_after: {count: 120, period: day}
 
     tables:
 

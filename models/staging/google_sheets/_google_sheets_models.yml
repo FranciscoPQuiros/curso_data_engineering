@@ -16,7 +16,7 @@ models:
       - name: quantity
         tests:
           - not_null 
-      - name: month
+      - name: date
         tests:
           - not_null
       - name: date_load
