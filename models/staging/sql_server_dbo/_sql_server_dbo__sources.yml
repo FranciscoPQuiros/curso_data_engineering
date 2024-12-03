@@ -12,94 +12,244 @@ sources:
       identifier: false
 
     freshness:
-      warn_after: {count: 30, period: day}
-      error_after: {count: 85, period: day}
+      warn_after: {count: 180, period: day}
+      error_after: {count: 360, period: day}
 
     tables:
 
       - name: addresses
-        loaded_at_field: _fivetran_synced
+        description: ""
         columns:
           - name: address_id
-          - name: zip_code
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Codigo identificador de la direccion"
+          - name: zipcode
+            data_type: varchar
+            description: "Codigo postal"
           - name: country
+            data_type: varchar
+            description: "Pais"
           - name: address
+            data_type: varchar
+            description: "Direccion exacta"
           - name: state
+            data_type: varchar
+            description: "Estado del pais"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: events
-        loaded_at_field: _fivetran_synced
+        description: "Tabla que comprende los diferentes acciones que realiza un usuario sobre un producto"
         columns:
           - name: event_id
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Codigo identificador de la direccion"
           - name: page_url
+            data_type: varchar
+            description: "Direccion web a la que se ha accedio en la accion especifica"
           - name: event_type
+            data_type: varchar
+            description: "Tipo de accion existente"
           - name: user_id
+            data_type: varchar
+            description: "Indicador que hacer referencia al usuario que realiza la accion"
           - name: product_id
+            data_type: varchar
+            description: "Indicador que hacer referencia el producto sobre el que se realiza la accion"
           - name: session_id
+            data_type: varchar
+            description: "Indicador que define la session en la que el usuario se encuentra"
           - name: created_at
+            data_type: timestamp_tz
+            description: "Momento en el que se realiza la accion"
           - name: order_id
+            data_type: varchar
+            description: "Indicador de relación con el pedido"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
-
-      - name: orders
-        loaded_at_field: _fivetran_synced
-        columns:
-          - name: order_id
-          - name: shipping_service
-          - name: shipping_cost
-          - name: address_id
-          - name: created_at
-          - name: promo_id
-          - name: estimated_delivery_at
-          - name: order_cost
-          - name: user_id
-          - name: order_total
-          - name: delivery_at
-          - name: tracking_id
-          - name: status
-          - name: _fivetran_deleted
-          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: order_items
-        loaded_at_field: _fivetran_synced
+        description: "Tabla que muestra la relacion de los pedidos de los usuarios con los productos comprados por cada uno"
         columns:
           - name: order_id
+            tests:
+              - not_null
+            data_type: varchar
+            description: "Indicador de relacion con la tabla de pedidos"
           - name: product_id
+            tests:
+              - not_null
+            data_type: varchar
+            description: "Indicador de relación con el producto"
           - name: quantity
+            data_type: number
+            description: "Cantidad de productos que se compran en ese pedido"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
+
+      - name: orders
+        description: "Tabla que muestra los pedidos realizados por los usuarios"
+        columns:
+          - name: order_id
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Clave primaria identificador del pedido"
+          - name: shipping_service
+            data_type: varchar
+            description: "Compañia de transporte"
+          - name: shipping_cost
+            data_type: float
+            description: "Coste del envio"
+          - name: address_id
+            tests:
+              - not_null
+            data_type: varchar
+            description: "Indicador de relacion con la dirección para ese pedido"
+          - name: created_at
+            data_type: timestamp_tz
+            description: "Momento en el que se realiza la solicitud del pedido"
+          - name: promo_id
+            tests:
+              - not_null
+            data_type: varchar
+            description: "Indicador de relacion con el tipo de promo"
+          - name: estimated_delivery_at
+            data_type: timestamp_tz
+            description: "Momento en el que se espera que llegue el pedido"
+          - name: order_cost
+            data_type: float
+            description: "Coste del pedido"
+          - name: user_id
+            tests:
+              - not_null
+            data_type: varchar
+            description: "Indicador de relación con el usuario que realiza el pedido"
+          - name: order_total
+            data_type: float
+            description: "Coste total del pedido"
+          - name: delivered_at
+            data_type: timestamp_tz
+            description: "Momento en el que llega el pedido"
+          - name: tracking_id
+            data_type: varchar
+            description: "Identificador para rastrear el envio"
+          - name: status
+            data_type: varchar
+            description: "Estado en el que se encuentra el pedido"
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
+          - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: products
-        loaded_at_field: _fivetran_synced
+        description: "Tabla que muestra los productos existentes"
         columns:
           - name: product_id
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Indicador principal de producto"
           - name: price
+            data_type: float
+            description: "Precio del producto"
           - name: name
+            data_type: varchar
+            description: "Nombre del producto"
           - name: inventory
+            data_type: number
+            description: "Cantidad de stock del producto"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: promos
-        loaded_at_field: _fivetran_synced
+        description: "Tabla que muestra los posibles descuentos a realizar"
         columns:
           - name: promo_id
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Identificador principal del promo"
           - name: discount
+            data_type: number
+            description: "Descuento que realiza la promo al ser usada"
           - name: status
+            data_type: varchar
+            description: "Estado en el que se encuentra la promo"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: users
-        loaded_at_field: _fivetran_synced
+        description: "Tabla que muestra la informarción general de usuarios"
         columns:
           - name: user_id
+            tests:
+              - unique
+              - not_null
+            data_type: varchar
+            description: "Identificador principal de usuario"
           - name: updated_at
+            data_type: timestamp_tz
+            description: "Momento en el que se realizo un cambio sobre la información en el operacional"
           - name: address_id
+            tests:
+              - relationships:
+                  field: address_id
+                  to: source('sql_server_db', 'addresses')
+            data_type: varchar
+            description: "Indicador de relacion con la tabla de direccion"
           - name: last_name
+            data_type: varchar
+            description: "Apellido del usuario"
           - name: created_at
+            data_type: timestamp_tz
+            description: "Momento en el que se crea el registro del usuario"
           - name: phone_number
-          - name: total_orders
+            data_type: varchar
+            description: "Numero de telefono"
+          #- name: total_orders
+          #  data_type: number
+          #  description: ""
           - name: first_name
+            data_type: varchar
+            description: "Nombre del usuario"
           - name: email
+            data_type: varchar
+            description: "Direccion de email del usuario"
           - name: _fivetran_deleted
+            data_type: boolean
+            description: "Flag indicador si fivetran lo recibe como borrado"
           - name: _fivetran_synced
+            data_type: timestamp_tz
+            description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
