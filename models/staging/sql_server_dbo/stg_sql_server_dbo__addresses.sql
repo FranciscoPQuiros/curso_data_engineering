@@ -10,7 +10,7 @@ addresses_renamed_casted AS (
         , state
         , country
         , zipcode
-        , convert_timezone('UTC', _fivetran_synced) AS date_load
+        , convert_timezone('UTC', _fivetran_synced) AS loaded_at
         , _fivetran_deleted
     FROM src_address
     )

@@ -13,7 +13,7 @@ users_renamed_casted AS (
         , phone_number
         , convert_timezone('UTC', created_at) AS created_at
         , convert_timezone('UTC', updated_at) AS updated_at
-        , convert_timezone('UTC', _fivetran_synced) AS date_load
+        , convert_timezone('UTC', _fivetran_synced) AS loaded_at
         , _fivetran_deleted
     FROM src_user
     )
