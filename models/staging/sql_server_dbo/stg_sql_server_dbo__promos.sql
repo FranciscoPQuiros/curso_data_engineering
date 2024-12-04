@@ -20,7 +20,7 @@ add_no_promo as (
         md5('no-promotion') as promo_id
         , 'no-promotion' as name
         , 0 as discount                 
-        , 'active' as status
+        , 'inactive' as status
         , convert_timezone('UTC',current_timestamp) as loaded_at
         , null as _fivetran_deleted  
 )

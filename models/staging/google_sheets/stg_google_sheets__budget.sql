@@ -9,7 +9,7 @@ budget_renamed_casted AS (
         , product_id
         , quantity
         , month as date
-        , _fivetran_synced AS date_load
+        , convert_timezone('UTC', _fivetran_synced) AS loaded_at
     FROM src_budget
     )
 

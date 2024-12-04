@@ -4,7 +4,7 @@ sources:
 
   - name: sql_server_dbo # name of the source 
     schema: sql_server_dbo # this is the schema our raw data lives in
-    database: ALUMNO20_DEV_BRONZE_DB # this is the name of our database
+    database: "{{ env_var('DBT_ENVIROMENTS') }}_BRONZE_DB" # this is the name of our database
 
     quoting:
       database: false
@@ -18,6 +18,7 @@ sources:
     tables:
 
       - name: addresses
+        loaded_at_field: _fivetran_synced
         description: ""
         columns:
           - name: address_id
@@ -46,6 +47,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: events
+        loaded_at_field: _fivetran_synced
         description: "Tabla que comprende los diferentes acciones que realiza un usuario sobre un producto"
         columns:
           - name: event_id
@@ -83,6 +85,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: order_items
+        loaded_at_field: _fivetran_synced
         description: "Tabla que muestra la relacion de los pedidos de los usuarios con los productos comprados por cada uno"
         columns:
           - name: order_id
@@ -106,6 +109,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: orders
+        loaded_at_field: _fivetran_synced
         description: "Tabla que muestra los pedidos realizados por los usuarios"
         columns:
           - name: order_id
@@ -164,6 +168,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: products
+        loaded_at_field: _fivetran_synced
         description: "Tabla que muestra los productos existentes"
         columns:
           - name: product_id
@@ -189,6 +194,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: promos
+        loaded_at_field: _fivetran_synced
         description: "Tabla que muestra los posibles descuentos a realizar"
         columns:
           - name: promo_id
@@ -211,6 +217,7 @@ sources:
             description: "Momento cuando fivetran lo ha recibido y lo ingestó en capa bronce"
 
       - name: users
+        loaded_at_field: _fivetran_synced
         description: "Tabla que muestra la informarción general de usuarios"
         columns:
           - name: user_id

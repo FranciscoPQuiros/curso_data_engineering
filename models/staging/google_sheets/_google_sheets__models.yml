@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: budget
+    description: "Tabla que muestra la estimación de venta por producto y fecha"
     columns:
       - name: _row
         tests:
@@ -17,8 +18,9 @@ models:
         tests:
           - not_null 
       - name: date
+        description: "Fecha para la que se espera la venta estimada"
         tests:
           - not_null
-      - name: date_load
+      - name: loaded_at
         tests:
           - not_null

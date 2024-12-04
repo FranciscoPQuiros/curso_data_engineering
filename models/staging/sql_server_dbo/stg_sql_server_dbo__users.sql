@@ -1,3 +1,9 @@
+{{
+  config(
+    materialized='table'
+  )
+}}
+
 WITH src_user AS (
     SELECT * 
     FROM {{ source('sql_server_dbo', 'users') }}
