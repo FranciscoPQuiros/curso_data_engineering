@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: budget
+    description: "Tabla que muestra la estimación de venta por producto y fecha"
+    columns:
+      - name: _row
+        tests:
+          - not_null
+          - unique
+      - name: product_id         
+        tests:
+          - not_null
+          - relationships:
+                to: ref('stg_sql_server_dbo__products')
+                field: product_id  
+      - name: quantity
+        tests:
+          - not_null 
+      - name: date
+        description: "Fecha para la que se espera la venta estimada"
+        tests:
+          - not_null
+      - name: loaded_at
+        tests:
+          - not_null

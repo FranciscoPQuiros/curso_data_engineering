@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_order_product_promo__joined
+    description: "Tabla que reune la información de producto, pedido y promo "
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: product_id         
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null 
+      - name: name
+        description: "Nombre del producto"
+        tests:
+          - not_null
+      - name: promo_id
+        tests:
+          - not_null
+      - name: delivered_date
+        tests:
+          - not_null
+              

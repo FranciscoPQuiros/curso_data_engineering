@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: fct_shell
+    description: "Tabla que muestra la cantidad de producto vendido para los que tiene un budget asociado "
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+      - name: name       
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null 
+      - name: budget_quantity
+        description: "Estimación de venta del producto"
+        tests:
+          - not_null
+      - name: quantity_diff
+        description: "Differencia entre las ventas y la estimación"
+        tests:
+          - not_null
+      - name: promo_main_status
+        description: "Estado principal de promos para el producto vendido"
+        tests:
+          - not_null
